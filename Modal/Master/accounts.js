@@ -67,6 +67,22 @@ const accounts = new mongoose.Schema({
   bankAcNo: {
     type: String,
   },
+  // 09-03-2024
+  creditAmount: {
+    type: Number,
+  },
+  debitAmount: {
+    type: Number,
+  },
+  journalDescription: {
+    type: String,
+  },
+  journal: {
+    type: String,
+  },
+  journalCreatedDate: {
+    type: Date,
+  },
 });
 
 const accountModal = mongoose.model("account", accounts);

@@ -86,6 +86,18 @@ class Account {
     }
   }
 
+  async getAccountByJournal(req, res) {
+    try {
+      let findJournal = await accountModal.find({ journal: "yes" });
+      if (!findJournal) {
+        return res.status(401).json({ message: "Journal not found" });
+      }
+      return res.status(200).json({ Journal: findJournal });
+    } catch (error) {
+      console.log("Error : ", error);
+    }
+  }
+
   async editAccount(req, res) {
     try {
       let id = req.params.id;
@@ -160,6 +172,33 @@ class Account {
     }
   }
 
+  async createJournals(req, res) {
+    try {
+      let id = req.params.id;
+      let { creditAmount, debitAmount, journalDescription, journal } = req.body;
+      const findAccount = await accountModal.findOne({ _id: id });
+      if (!findAccount) {
+        return res.status(401).json({ error: "No Account Found" });
+      }
+      const updatedAccount = await accountModal.findOneAndUpdate(
+        { _id: id },
+        {
+          creditAmount,
+          debitAmount,
+          journalDescription,
+          journal,
+          journalCreatedDate: Date.now(),
+        },
+        { new: true }
+      );
+
+      res.status(200).json(updatedAccount);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "Unable to update the details! Try again later" });
+    }
+  }
   async deleteAccount(req, res) {
     try {
       let accountId = req.params.id;
