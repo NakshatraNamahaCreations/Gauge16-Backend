@@ -94,6 +94,99 @@ class items {
     }
   }
 
+  async purchaseaddItems(req, res) {
+    let {
+      itemName,
+      aliasName,
+      primaryGroup,
+      underGroup,
+      skuCode,
+      skuManufacturerCode,
+      description,
+      tax,
+      taxType,
+      unitRequired,
+      unitFrom,
+      unitTo,
+      sellingPrice,
+      salesDescription,
+      hsnCode,
+      manufacturersCode,
+      brand,
+      manufacturer,
+      weight,
+      dimensionsHeight,
+      dimensionsWidth,
+      dimensionsLength,
+      purchasePrice,
+      purchaseDescription,
+      itemGroupCategory,
+      openingStock,
+      stockInHand,
+      oldstockinhand,
+      openingStockRatePerUnit,
+      reOrderLevel,
+      preferredVendor,
+      discount,
+      quantity,
+      purchaseresponce,
+    } = req.body;
+    let file = req.file?.filename;
+    try {
+      let newItems = new itemsModal({
+        itemName,
+        itemImage: file,
+        aliasName,
+        primaryGroup,
+        underGroup,
+        skuCode,
+        skuManufacturerCode,
+        description,
+        tax,
+        taxType,
+        unitRequired,
+        unitFrom,
+        unitTo,
+        sellingPrice,
+        salesDescription,
+        hsnCode,
+        manufacturersCode,
+        brand,
+        manufacturer,
+        weight,
+        dimensionsHeight,
+        dimensionsWidth,
+        dimensionsLength,
+        purchasePrice,
+        purchaseDescription,
+        itemGroupCategory,
+        openingStock,
+        stockInHand,
+        oldstockinhand,
+        openingStockRatePerUnit,
+        reOrderLevel,
+        preferredVendor,
+        discount,
+        quantity,
+        purchaseresponce,
+      });
+      if (!file) {
+        return res.status(500).json({
+          status: 500,
+          error: "Please select image",
+        });
+      }
+      newItems.save().then((data) => {
+        console.log(data);
+        return res
+          .status(200)
+          .json({ success: "Items Added Successfully", data });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async getAllItems(req, res) {
     try {
       let items = await itemsModal.find({});
@@ -236,229 +329,3 @@ class items {
 
 const itemsController = new items();
 module.exports = itemsController;
-
-// async updateRecceOutletName(req, res) {
-//   const outletid = req.params.addexcelid;
-
-//   try {
-//     if (!outletid || !mongoose.Types.ObjectId.isValid(outletid)) {
-//       return res.status(400).json({ error: "Invalid outletid provided" });
-//     }
-
-//     const {
-//       vendor,
-//       unit,
-//       height,
-//       State,
-//       PartnerCode,
-//       date,
-//       width,
-//       ShopName,
-//       ClientName,
-//       OutletAddress,
-//       OutletZone,
-//       category,
-//       outletName,
-//       OutlateFabricationNeed,
-//       OutlateFabricationDeliveryType,
-//       InstalationGroup,
-//       fabricationupload,
-//       GSTNumber,
-//       Designstatus,
-//       printingStatus,
-//       OutletContactNumber,
-//       fabricationstatus,
-//       installationSTatus,
-//       RecceStatus,
-//       printupload,
-//       installationupload,
-//       completedDesign,
-//       completedRecceId,
-//       completedPrinting,
-//       completedInstallation,
-//       designupload,
-//       reccedesign,
-//       No_Quantity,
-//       SFT,
-//       ProductionRate,
-//       ProductionCost,
-//       transportationcost,
-//       InstallationRate,
-//       InstallationCost,
-//       transportationRate,
-//       latitude,
-//       longitude,
-//       GSB,
-//       OutletCity,
-//       FLBoard,
-//       Inshop,
-//       OutletPincode,
-//     } = req.body;
-
-//     const outletNameArrayWithIDs = outletName.map((individualOutlet) => ({
-//       _id: new ObjectId(),
-//       vendor,
-//       ShopName,
-//       ClientName,
-//       unit,
-//       State,
-//       OutletAddress,
-//       OutletCity,
-//       PartnerCode,
-//       height,
-//       OutletZone,
-//       date,
-//       width,
-//       OutletContactNumber,
-//       category,
-//       OutlateFabricationNeed,
-//       OutlateFabricationDeliveryType,
-//       InstalationGroup,
-//       fabricationupload,
-//       GSTNumber,
-//       Designstatus: "Pending",
-//       printingStatus: "Pending",
-//       fabricationstatus: "Pending",
-//       installationSTatus: "Pending",
-//       RecceStatus: "Pending",
-//       printupload,
-//       installationupload,
-//       completedDesign,
-//       completedRecceId,
-//       completedPrinting,
-//       completedInstallation,
-//       designupload,
-//       reccedesign,
-//       No_Quantity,
-//       SFT,
-//       ProductionRate,
-//       ProductionCost,
-//       transportationcost,
-//       InstallationRate,
-//       InstallationCost,
-//       transportationRate,
-//       latitude,
-//       longitude,
-//       FLBoard,
-//       GSB,
-//       Inshop,
-//       OutletPincode,
-//       createdAt: new Date(),
-//       ...individualOutlet,
-//     }));
-
-//     const updatedRecce = await RecceModel.findByIdAndUpdate(
-//       outletid,
-//       { $push: { outletName: { $each: outletNameArrayWithIDs } } },
-//       { new: true }
-//     );
-
-//     if (!updatedRecce) {
-//       return res
-//         .status(404)
-//         .json({ error: `Document with _id ${outletid} not found` });
-//     }
-//     console.log("updatedRecce", updatedRecce);
-//     return res
-//       .status(200)
-//       .json({ message: "Outlet names updated successfully" });
-//   } catch (error) {
-//     console.error("Error:", error);
-//     console.log("Error occurred");
-//     return res.status(500).json({ error: "Internal server error" });
-//   }
-// }
-
-// updaing and adding=======================
-// const mongoose = require('mongoose');
-
-// // Assuming you have mongoose models for Items and SaleOrders
-
-// const updateSalesOrderAndItems = async (salesOrderDetails, itemsUpdateDetails) => {
-//   const session = await mongoose.startSession();
-
-//   try {
-//     await session.withTransaction(async () => {
-//       // Update Sales Order Schema
-//       const newSaleOrder = await SaleOrder.create(salesOrderDetails);
-
-//       // Update Items Schema
-//       for (const itemUpdate of itemsUpdateDetails) {
-//         const itemId = itemUpdate.itemId; // Assuming itemId is the reference to Items schema
-//         const updatedItem = await Item.findByIdAndUpdate(
-//           itemId,
-//           { $set: { stockInHand: itemUpdate.newStockInHand } },
-//           { new: true }
-//         );
-
-//         // Additional logic if needed after updating each item
-//       }
-//     });
-
-//     // If both updates were successful, commit the transaction
-//     await session.commitTransaction();
-//   } catch (error) {
-//     // If there's an error in either update, rollback the transaction
-//     await session.abortTransaction();
-//     console.error('Error:', error);
-//   } finally {
-//     // End the session
-//     session.endSession();
-//   }
-// };
-
-// // Usage example
-// const salesOrderDetails = {
-//   customerName: 'Customer A',
-//   salesOrderNumber: 'SO123',
-//   itemDetails: [
-//     { itemId: 'itemObjectId1', quantity: 5 },
-//     { itemId: 'itemObjectId2', quantity: 3 },
-//     // Additional item details
-//   ],
-// };
-
-// const itemsUpdateDetails = [
-//   { itemId: 'itemObjectId1', newStockInHand: 10 },
-//   { itemId: 'itemObjectId2', newStockInHand: 15 },
-//   // Additional item update details
-// ];
-
-// updateSalesOrderAndItems(salesOrderDetails, itemsUpdateDetails);
-
-// saleOrder Schema
-// {
-// customername:"Kiru",
-// salesorderNumber:4,
-// itemDetails: [{
-//   itemId:"65dee4148d3a0796e816d913",
-// itemName:"USeamFs",
-// discountAmount:"42806.40",
-// quantity:"20",
-// stockInHand:230,
-// markup:4,
-// openingStock:250
-// },{
-//   itemId:"65dee4148d3a0796e816d914",
-// itemName:"Coffee Table",
-// discountAmount:"525000.00",
-// quantity:"5",
-// stockInHand:95,
-// markup:4,
-// openingStock:100
-// }]
-// }
-// // items Schema
-// {
-// _id:"65dee35a8d3a0796e816d90d",
-// itemName:"Coffee Table",
-// stockInHand:100,
-// openingStock:100,
-// },
-// {
-//   _id:"65dee4148d3a0796e816d913",
-//   itemName:"Useam Fs",
-//   stockInHand:250,
-// openingStock:250,
-
-// }

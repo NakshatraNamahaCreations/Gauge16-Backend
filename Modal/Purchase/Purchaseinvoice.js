@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 //4
-const purchaseorder = new mongoose.Schema({
+const purchaseinvoice = new mongoose.Schema({
   vendorname: {
     type: Array,
   },
-  purchaseorderNumber: {
+  Invoicenumber: {
     type: String,
   },
-  purchaseorderDate: {
+  Invoicedate: {
     type: String,
   },
   PaymentTerms: {
@@ -25,10 +25,7 @@ const purchaseorder = new mongoose.Schema({
   itemDetails: {
     type: Array,
   },
-  phoneNumber: {
-    type: Number,
-  },
 });
 
-const PurchaseOrdermodel = mongoose.model("purchaseorder", purchaseorder);
-module.exports = PurchaseOrdermodel;
+const purchaseinvoicemodel = mongoose.model("purchaseinvoice", purchaseinvoice);
+module.exports = purchaseinvoicemodel;

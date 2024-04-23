@@ -110,9 +110,10 @@ const items = new mongoose.Schema({
   quantity: {
     type: String,
   },
+  purchaseresponce: {
+    type: Boolean,
+  },
 });
 
 const itemsModal = mongoose.model("items", items);
 module.exports = itemsModal;
-
-

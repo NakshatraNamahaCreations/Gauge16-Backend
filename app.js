@@ -37,6 +37,8 @@ const creditnote = require("./Route/Transaction/Creditnote");
 const debitnote = require("./Route/Purchase/Debitnote");
 const skucode = require("./Route/Master/Skucode");
 const deliverychallangroup = require("./Route/Deliverychallan/Deliverychallangroup");
+const purchaseinvoice = require("./Route/Purchase/Purchaseinvoice");
+const purchaseorder = require("./Route/Purchase/purchaseOrder");
 
 app.get("/", (req, res) => {
   res.send("Hello, World!");
@@ -58,6 +60,8 @@ app.use("/api/transaction/creditnote", creditnote);
 app.use("/api/purchase/debitnote", debitnote);
 app.use("/api/master/skucode", skucode);
 app.use("/api/deliverychallan/challangroup", deliverychallangroup);
+app.use("/api/purchase/invoice", purchaseinvoice);
+app.use("/api/purchase", purchaseorder);
 
 const PORT = process.env.PORT || 9002;
 

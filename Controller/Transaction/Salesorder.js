@@ -248,27 +248,6 @@ class salesorder {
     }
   }
 
-  //   async getQuotationByNumberAndDate(req, res) {
-  //     const { QuotationNumber, QuotationDate } = req.body;
-
-  //     try {
-  //       let items = await salesorderModal.find({
-  //         QuotationNumber: QuotationNumber,
-  //         QuotationDate: QuotationDate,
-  //         // quotationtype: "Quotation",
-  //       });
-
-  //       if (items) {
-  //         return res.status(200).json({ quotations: items });
-  //       } else {
-  //         return res.status(404).json({ message: "Quotations not found" });
-  //       }
-  //     } catch (err) {
-  //       console.log(err);
-  //       return res.status(500).json({ message: "Internal Server Error" });
-  //     }
-  //   }
-
   async getQuotationByNumberAndDate(req, res) {
     const { QuotationNumber, QuotationDate } = req.body;
     if (!QuotationNumber) {
@@ -444,103 +423,7 @@ class salesorder {
         .json({ error: "Unable to update the details! Try again later" });
     }
   }
-
-  //   async updateSalesorder(req, res) {
-  //     const quotationid = req.params.addexcelid;
-
-  //     try {
-  //       if (!quotationid || !mongoose.Types.ObjectId.isValid(quotationid)) {
-  //         return res.status(400).json({ error: "Invalid quotationid provided" });
-  //       }
-  //       const {
-  //         customername,
-  //         QuotationNumber,
-  //         QuotationDate,
-  //         PaymentTerms,
-  //         Address,
-  //         PhoneNumber,
-  //         DeliveryMethod,
-  //         SalesPerson,
-  //         additem,
-  //         quantity,
-  //         rate,
-  //         amount,
-  //         discount,
-  //         itemDetails,
-  //         totalamount,
-  //       } = req.body;
-
-  //       const outletNameArrayWithIDs = itemDetails.map((individualOutlet) => ({
-  //         _id: new ObjectId(),
-  //         customername,
-  //         QuotationNumber,
-  //         QuotationDate,
-  //         PaymentTerms,
-  //         Address,
-  //         PhoneNumber,
-  //         DeliveryMethod,
-  //         SalesPerson,
-  //         additem,
-  //         quantity,
-  //         rate,
-  //         amount,
-  //         discount,
-  //         itemDetails,
-  //         totalamount,
-  //         ...individualOutlet,
-  //       }));
-
-  //       const updatedRecce = await salesorderModal.findByIdAndUpdate(
-  //         quotationid,
-  //         { $push: { itemDetails: { $each: outletNameArrayWithIDs } } },
-  //         { new: true }
-  //       );
-
-  //       if (!updatedRecce) {
-  //         return res
-  //           .status(404)
-  //           .json({ error: `Document with _id ${quotationid} not found` });
-  //       }
-  //       console.log("updatedRecce", updatedRecce);
-  //       return res
-  //         .status(200)
-  //         .json({ message: "Quotation updated successfully" });
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //       console.log("Error occurred");
-  //       return res.status(500).json({ error: "Internal server error" });
-  //     }
-  //   }
 }
 
 const salesorderController = new salesorder();
 module.exports = salesorderController;
-
-// discount: 0;
-// discountAmount: 3809;
-// itemId: "65e5c26b04089de22bba16e0";
-// itemName: "Storage Cabinet";
-// markup: 0;
-// oldstockinhand: 40;
-// openingStock: 0;
-// quantity: "10";
-// rate: 293;
-// stockInHand: 30;
-
-// PhoneNumber: 8251825313;
-// SalesPerson: "Olive";
-// customername: "Jin";
-// itemDetails[
-//   ({
-//     discountAmount: 17008,
-//     itemId: "65e5c21304089de22bba16d7",
-//     itemName: "Coffee Table",
-//     stockInHand: 6,
-//   },
-//   {
-//     discountAmount: 6085,
-//     itemId: "65e5c17704089de22bba16cf",
-//     itemName: "Dining Table and Chairs Set",
-//     stockInHand: 0,
-//   })
-// ];

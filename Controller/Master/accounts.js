@@ -73,16 +73,31 @@ class Account {
     }
   }
 
-  async getAnAccount(req, res) {
+  async createJournals(req, res) {
     try {
-      let accountId = req.params.id;
-      let findAccount = await accountModal.findOne({ _id: accountId });
+      let id = req.params.id;
+      let { creditAmount, debitAmount, journalDescription, journal } = req.body;
+      const findAccount = await accountModal.findOne({ _id: id });
       if (!findAccount) {
-        return res.status(401).json({ message: "Account not found" });
+        return res.status(401).json({ error: "No Account Found" });
       }
-      return res.status(200).json({ item: findAccount });
+      const updatedAccount = await accountModal.findOneAndUpdate(
+        { _id: id },
+        {
+          creditAmount,
+          debitAmount,
+          journalDescription,
+          journal,
+          journalCreatedDate: Date.now(),
+        },
+        { new: true }
+      );
+
+      res.status(200).json(updatedAccount);
     } catch (error) {
-      console.log("Error : ", error);
+      res
+        .status(500)
+        .json({ error: "Unable to update the details! Try again later" });
     }
   }
 
@@ -93,6 +108,19 @@ class Account {
         return res.status(401).json({ message: "Journal not found" });
       }
       return res.status(200).json({ Journal: findJournal });
+    } catch (error) {
+      console.log("Error : ", error);
+    }
+  }
+
+  async getAnAccount(req, res) {
+    try {
+      let accountId = req.params.id;
+      let findAccount = await accountModal.findOne({ _id: accountId });
+      if (!findAccount) {
+        return res.status(401).json({ message: "Account not found" });
+      }
+      return res.status(200).json({ item: findAccount });
     } catch (error) {
       console.log("Error : ", error);
     }
@@ -172,33 +200,6 @@ class Account {
     }
   }
 
-  async createJournals(req, res) {
-    try {
-      let id = req.params.id;
-      let { creditAmount, debitAmount, journalDescription, journal } = req.body;
-      const findAccount = await accountModal.findOne({ _id: id });
-      if (!findAccount) {
-        return res.status(401).json({ error: "No Account Found" });
-      }
-      const updatedAccount = await accountModal.findOneAndUpdate(
-        { _id: id },
-        {
-          creditAmount,
-          debitAmount,
-          journalDescription,
-          journal,
-          journalCreatedDate: Date.now(),
-        },
-        { new: true }
-      );
-
-      res.status(200).json(updatedAccount);
-    } catch (error) {
-      res
-        .status(500)
-        .json({ error: "Unable to update the details! Try again later" });
-    }
-  }
   async deleteAccount(req, res) {
     try {
       let accountId = req.params.id;

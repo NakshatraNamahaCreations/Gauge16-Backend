@@ -14,6 +14,11 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.post("/additem", upload.single("itemImage"), itemsController.addItems);
+router.post(
+  "/purchaseaddItems",
+  upload.single("itemImage"),
+  itemsController.purchaseaddItems
+);
 router.get("/getallitems", itemsController.getAllItems);
 router.get("/getanitem/:id", itemsController.getAnItem);
 router.put(
